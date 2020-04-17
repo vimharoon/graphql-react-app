@@ -2,10 +2,12 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const graphqlHttp = require('express-graphql')
 const { buildSchema } = require('graphql')
+const mongoose = require('mongoose')
+
+// import models
+const Event = require('./models/event')
 
 const app = express()
-
-const events = []
 
 app.use(bodyParser.json())
 
@@ -42,22 +44,47 @@ app.use(
     }
   `),
     rootValue: {
-      events: () => events,
+      events: () => {
+        return Event.find()
+          .then((result) => {
+            return result.map((event) => {
+              return { ...event._doc }
+            })
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+      },
       createEvent: (args) => {
-        const event = {
-          _id: Math.random().toString(),
+        const event = new Event({
           title: args.eventInput.title,
           description: args.eventInput.description,
           price: +args.eventInput.price,
-          date: args.eventInput.date,
-        }
-
-        events.push(event)
+          date: new Date(args.eventInput.date),
+        })
         return event
+          .save()
+          .then((result) => {
+            return { ...result._doc }
+          })
+          .catch((error) => {
+            console.log(error)
+            throw error
+          })
       },
     },
     graphiql: true,
   })
 )
 
-app.listen(8080)
+mongoose
+  .connect('mongodb://localhost:27017/events-booking-dev', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    app.listen(8080)
+  })
+  .catch((error) => {
+    console.log(error)
+  })
