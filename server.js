@@ -3,9 +3,11 @@ const bodyParser = require('body-parser')
 const graphqlHttp = require('express-graphql')
 const { buildSchema } = require('graphql')
 const mongoose = require('mongoose')
+const bcrypt = require('bcryptjs')
 
 // import models
 const Event = require('./models/event')
+const User = require('./models/user')
 
 const app = express()
 
@@ -23,11 +25,22 @@ app.use(
       date: String!
     }
 
+    type User {
+      _id: ID!
+      email: String!
+      password: String
+    }
+
     input EventInput {
       title: String!
       description: String!
       price: Float!
       date: String!
+    }
+
+    input UserInput {
+      email: String!
+      password: String
     }
 
     type RootQuery {
@@ -36,6 +49,7 @@ app.use(
 
     type RootMutation {
       createEvent(eventInput: EventInput): Event
+      createUser(userInput: UserInput): User
     }
 
     schema {
@@ -61,11 +75,44 @@ app.use(
           description: args.eventInput.description,
           price: +args.eventInput.price,
           date: new Date(args.eventInput.date),
+          creator: '5e9a030955ad7d77514574c0',
         })
+        let createdEvent = null
         return event
           .save()
           .then((result) => {
-            return { ...result._doc }
+            createdEvent = { ...result._doc }
+            return User.findById('5e9a030955ad7d77514574c0')
+          })
+          .then((user) => {
+            user.createdEvent.push(event)
+            return user.save()
+          })
+          .then((result) => {
+            return createdEvent
+          })
+          .catch((error) => {
+            console.log(error)
+            throw error
+          })
+      },
+      createUser: (args) => {
+        return User.findOne({ email: args.userInput.email })
+          .then((user) => {
+            if (user) {
+              throw new Error('user with this email exist already')
+            }
+            return bcrypt.hash(args.userInput.password, 12)
+          })
+          .then((hasedPassword) => {
+            const user = new User({
+              email: args.userInput.email,
+              password: hasedPassword,
+            })
+            return user.save()
+          })
+          .then((result) => {
+            return { ...result._doc, password: null }
           })
           .catch((error) => {
             console.log(error)
