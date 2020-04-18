@@ -1,43 +1,8 @@
 const Event = require('../../models/event')
 const User = require('../../models/user')
 
-const user = async (userId) => {
-  try {
-    const user = await User.findById(userId)
-
-    return {
-      ...user._doc,
-      createdEvent: event.bind(this, user._doc.createdEvent),
-    }
-  } catch (error) {
-    throw error
-  }
-}
-
-const event = async (eventIds) => {
-  try {
-    const events = await Event.find({ _id: { $in: eventIds } })
-
-    return events.map((event) => {
-      return {
-        ...event._doc,
-        date: new Date(event._doc.date).toISOString(),
-        creator: user.bind(this, event.creator),
-      }
-    })
-  } catch (error) {
-    throw error
-  }
-}
-
-const singleEvent = async (eventId) => {
-  try {
-    const event = await Event.findById(eventId)
-    return { ...event._doc, creator: user.bind(this, event.creator) }
-  } catch (error) {
-    throw error
-  }
-}
+const { dateToString } = require('../../helpers/date')
+const { user } = require('../../helpers/resolversUtils')
 
 const events = async () => {
   try {
@@ -45,7 +10,7 @@ const events = async () => {
     return events.map((event) => {
       return {
         ...event._doc,
-        date: new Date(event._doc.date).toISOString(),
+        date: dateToString(event._doc.date),
         creator: user.bind(this, event._doc.creator),
       }
     })
@@ -67,7 +32,7 @@ const createEvent = async (args) => {
     const result = await event.save()
     let createdEvent = {
       ...result._doc,
-      date: new Date(result._doc.date).toISOString(),
+      date: dateToString(result._doc.date),
       creator: user.bind(this, result._doc.creator),
     }
 
@@ -80,8 +45,6 @@ const createEvent = async (args) => {
   }
 }
 module.exports = {
-  user,
   events,
-  singleEvent,
   createEvent,
 }

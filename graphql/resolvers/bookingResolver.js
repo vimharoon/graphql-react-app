@@ -1,7 +1,8 @@
 const Booking = require('../../models/booking')
 const Event = require('../../models/event')
 
-const { user, singleEvent } = require('./eventResolver')
+const { user, singleEvent } = require('../../helpers/resolversUtils')
+const { dateToString } = require('../../helpers/date')
 
 const bookings = async () => {
   try {
@@ -11,8 +12,8 @@ const bookings = async () => {
         ...booking._doc,
         user: user.bind(this, booking._doc.user),
         event: singleEvent.bind(this, booking._doc.event),
-        createdAt: new Date(booking._doc.createdAt).toISOString(),
-        updatedAt: new Date(booking._doc.updatedAt).toISOString(),
+        createdAt: dateToString(booking._doc.createdAt),
+        updatedAt: dateToString(booking._doc.updatedAt),
       }
     })
   } catch (error) {
@@ -32,8 +33,8 @@ const bookingEvent = async (args) => {
       ...result._doc,
       user: user.bind(this, booking._doc.user),
       event: singleEvent.bind(this, booking._doc.event),
-      createdAt: new Date(booking._doc.createdAt).toISOString(),
-      updatedAt: new Date(booking._doc.updatedAt).toISOString(),
+      createdAt: dateToString(booking._doc.createdAt),
+      updatedAt: dateToString(booking._doc.updatedAt),
     }
   } catch (error) {
     throw error
