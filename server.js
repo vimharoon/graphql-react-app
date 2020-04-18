@@ -20,6 +20,7 @@ app.use(
   })
 )
 
+// to run mongod on mac: mongod --dbpath /System/Volumes/Data/data/db
 mongoose
   .connect('mongodb://localhost:27017/events-booking-dev', {
     useNewUrlParser: true,

@@ -30,6 +30,15 @@ const event = async (eventIds) => {
   }
 }
 
+const singleEvent = async (eventId) => {
+  try {
+    const event = await Event.findById(eventId)
+    return { ...event._doc, creator: user.bind(this, event.creator) }
+  } catch (error) {
+    throw error
+  }
+}
+
 const events = async () => {
   try {
     const events = await Event.find()
@@ -62,15 +71,17 @@ const createEvent = async (args) => {
       creator: user.bind(this, result._doc.creator),
     }
 
-    const user = await User.findById('5e9a030955ad7d77514574c0')
-    user.createdEvent.push(event)
-    await user.save()
+    const creator = await User.findById('5e9a030955ad7d77514574c0')
+    creator.createdEvent.push(event)
+    await creator.save()
     return createdEvent
   } catch (error) {
     throw error
   }
 }
 module.exports = {
+  user,
   events,
+  singleEvent,
   createEvent,
 }
