@@ -1,7 +1,7 @@
 const Event = require('../models/event')
 const User = require('../models/user')
 
-const { dateToString } = require('./date')
+const { dateToString } = require('./_dateHelper')
 
 const user = async (userId) => {
   try {

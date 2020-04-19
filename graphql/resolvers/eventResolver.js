@@ -1,8 +1,8 @@
 const Event = require('../../models/event')
 const User = require('../../models/user')
 
-const { dateToString } = require('../../helpers/date')
-const { user } = require('../../helpers/resolversUtils')
+const { dateToString } = require('../../helpers/_dateHelper')
+const { user } = require('../../helpers/_resolversHelper')
 
 const events = async () => {
   try {
@@ -19,13 +19,16 @@ const events = async () => {
   }
 }
 
-const createEvent = async (args) => {
+const createEvent = async (args, req) => {
+  if (!req.isAuth) {
+    throw new Error('Unauthorized')
+  }
   const event = new Event({
     title: args.eventInput.title,
     description: args.eventInput.description,
     price: +args.eventInput.price,
     date: new Date(args.eventInput.date),
-    creator: '5e9a030955ad7d77514574c0',
+    creator: req.userId,
   })
 
   try {
@@ -36,7 +39,7 @@ const createEvent = async (args) => {
       creator: user.bind(this, result._doc.creator),
     }
 
-    const creator = await User.findById('5e9a030955ad7d77514574c0')
+    const creator = await User.findById(req.userId)
     creator.createdEvent.push(event)
     await creator.save()
     return createdEvent

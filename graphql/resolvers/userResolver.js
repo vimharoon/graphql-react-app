@@ -1,6 +1,10 @@
 // import user model
 const User = require('../../models/user')
-const { hashPassword } = require('../../helpers/passwordHasing')
+const {
+  hashPassword,
+  generateToken,
+  comparePassword,
+} = require('../../helpers/_authHelper')
 
 const createUser = async (args) => {
   try {
@@ -20,6 +24,25 @@ const createUser = async (args) => {
     throw error
   }
 }
+
+const login = async (args) => {
+  try {
+    const user = await User.findOne({ email: args.email })
+    if (!user) {
+      throw new Error('Please verify your credentials and try again')
+    }
+    const isValidPassword = await comparePassword(args.password, user.password)
+    if (!isValidPassword) {
+      throw new Error('Please verify your credentials and try again')
+    }
+    const token = generateToken({ userId: user._id, email: user.email })
+    return { userId: user._id, token: token, tokenExpiration: 1 }
+  } catch (error) {
+    throw error
+  }
+}
+
 module.exports = {
   createUser,
+  login,
 }

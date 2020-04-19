@@ -7,9 +7,14 @@ const mongoose = require('mongoose')
 const graphQlSchema = require('./graphql/schema')
 const graphQlResolvers = require('./graphql/resolvers')
 
+// import auth middleware
+const isAuth = require('./middleware/checkAuth')
+
 const app = express()
 
 app.use(bodyParser.json())
+
+app.use(isAuth)
 
 app.use(
   '/graphql',

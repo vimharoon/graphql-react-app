@@ -1,10 +1,13 @@
 const Booking = require('../../models/booking')
 const Event = require('../../models/event')
 
-const { user, singleEvent } = require('../../helpers/resolversUtils')
-const { dateToString } = require('../../helpers/date')
+const { user, singleEvent } = require('../../helpers/_resolversHelper')
+const { dateToString } = require('../../helpers/_dateHelper')
 
-const bookings = async () => {
+const bookings = async (args, req) => {
+  if (!req.isAuth) {
+    throw new Error('Unauthorized')
+  }
   try {
     const bookings = await Booking.find()
     return bookings.map((booking) => {
@@ -21,11 +24,14 @@ const bookings = async () => {
   }
 }
 
-const bookingEvent = async (args) => {
+const bookingEvent = async (args, req) => {
+  if (!req.isAuth) {
+    throw new Error('Unauthorized')
+  }
   try {
     const getEventById = await Event.findOne({ _id: args.eventId })
     const booking = new Booking({
-      user: '5e9a030955ad7d77514574c0',
+      user: req.userId,
       event: getEventById,
     })
     const result = await booking.save()
@@ -41,7 +47,10 @@ const bookingEvent = async (args) => {
   }
 }
 
-const cancelBooking = async (args) => {
+const cancelBooking = async (args, req) => {
+  if (!req.isAuth) {
+    throw new Error('Unauthorized')
+  }
   try {
     const booking = await Booking.findById(args.bookingId).populate('event')
     const event = {
