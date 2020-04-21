@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import { useForm } from './../../hooks'
 
@@ -6,16 +6,25 @@ const RegisterFrom = (props) => {
   const { values, handleChange, handleSubmit } = useForm(register)
 
   function register() {
-    console.log(values)
+    registerRequest(values).then((resData) => {
+      console.log(resData)
+    })
   }
 
-  const createUser = async ({ email, password }) => {
+  const registerRequest = async ({ firstname, lastname, email, password }) => {
     const response = await fetch('http://localhost:8080/graphql', {
       method: 'POST',
       body: JSON.stringify({
-        query: `mutation {createUser(userInput: { email: "${email}", password: "${password}" })
-          { _id email }
-        }`,
+        query: `mutation {
+                  createUser(userInput: {
+                    firstname: "${firstname}",
+                    lastname: "${lastname}",
+                    email: "${email}",
+                    password: "${password}"
+                  }) {
+                    email
+                  }
+                }`,
       }),
       headers: { 'Content-Type': 'application/json' },
     })

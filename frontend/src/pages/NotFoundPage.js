@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom'
 
 const NotFoundPage = () => {
   return (
-    <div>
-      <h1>Not Found</h1>
+    <div className="not-found-page">
+      <h1>Lost in space ?</h1>
       <p>
-        return to <Link to="/">Home</Link>
+        <Link to="/">Back to Home</Link>
       </p>
     </div>
   )

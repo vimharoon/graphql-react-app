@@ -15,6 +15,8 @@ const createUser = async (args) => {
     }
     const hasedPassword = await hashPassword(args.userInput.password)
     const newUser = new User({
+      firstname: args.userInput.firstname,
+      lastname: args.userInput.lastname,
       email: args.userInput.email,
       password: hasedPassword,
     })
@@ -36,7 +38,13 @@ const login = async (args) => {
       throw new Error('Please verify your credentials and try again')
     }
     const token = generateToken({ userId: user._id, email: user.email })
-    return { userId: user._id, token: token, tokenExpiration: 1 }
+    return {
+      userId: user._id,
+      firstname: user.firstname,
+      lastname: user.lastname,
+      token: token,
+      tokenExpiration: 1,
+    }
   } catch (error) {
     throw error
   }

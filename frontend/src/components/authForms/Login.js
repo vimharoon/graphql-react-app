@@ -1,25 +1,40 @@
-import React from 'react'
+import React, { useContext } from 'react'
 
 import { useForm } from './../../hooks'
+import { AuthContext } from './../../contexts'
 
 const LoginFrom = (props) => {
   const { values, handleChange, handleSubmit } = useForm(login)
 
+  const authContext = useContext(AuthContext)
+
   function login() {
-    console.log(values)
+    loginRequest(values).then((userData) => {
+      if (!userData.errors) {
+        authContext.login({ ...userData.data.login.token })
+      }
+    })
   }
-  // const createUser = async ({ email, password }) => {
-  //   const response = await fetch('http://localhost:8080/graphql', {
-  //     method: 'POST',
-  //     body: JSON.stringify({
-  //       query: `mutation {createUser(userInput: { email: "${email}", password: "${password}" })
-  //         { _id email }
-  //       }`,
-  //     }),
-  //     headers: { 'Content-Type': 'application/json' },
-  //   })
-  //   return await response.json()
-  // }
+
+  const loginRequest = async ({ email, password }) => {
+    const response = await fetch('http://localhost:8080/graphql', {
+      method: 'POST',
+      body: JSON.stringify({
+        query: `query {
+                login(email: "${email}", password: "${password}")
+                  {
+                    userId
+                    firstname
+                    lastname
+                    token
+                    tokenExpiration
+                  }
+                }`,
+      }),
+      headers: { 'Content-Type': 'application/json' },
+    })
+    return await response.json()
+  }
 
   return (
     <div className="auth-page-login">
