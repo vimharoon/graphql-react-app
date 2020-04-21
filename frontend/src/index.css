@@ -65,13 +65,89 @@ body {
 }
 
 .navigation__items a:hover,
-.navigation__items a:active {
+.navigation__items a:active,
+.navigation__items a.active {
   background-color: #5743be;
   color: #fafafa;
 }
 
 .main-content {
   margin: 4rem 2.5rem;
+}
+
+.auth-page-login,
+.auth-page-register {
+  width: 35rem;
+  max-width: 80%;
+  margin: 7rem auto;
+}
+
+.auth-page-register {
+  margin: 6rem auto;
+}
+
+.auth-page-login .page-title,
+.auth-page-register .page-title {
+  text-align: center;
+}
+
+.form-control label,
+.form-control input {
+  width: 100%;
+  display: block;
+  padding: 12px 15px;
+  border-radius: 7px;
+  border: none;
+}
+
+.form-control input {
+  font-size: 1rem;
+  outline: none;
+  border: 1.5px solid #f6f7f8;
+}
+
+.form-control input.error {
+  border: 1.5px solid rgba(254, 108, 41, 0.4);
+}
+
+.form-control input.success {
+  border: 1.5px solid rgba(66, 122, 10, 0.4);
+}
+
+.form-control label {
+  margin-bottom: 0.5rem;
+  padding-left: 0px;
+}
+
+.form-control {
+  margin-bottom: 1rem;
+}
+
+.form-action button {
+  background-color: #5743be;
+  color: #fafafa;
+  display: block;
+  margin: 0 auto 1rem;
+  cursor: pointer;
+  padding: 14px 30px;
+  font-weight: 700;
+  border-radius: 7px;
+  font-size: 0.9rem;
+  outline: none;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.26);
+}
+
+.form-action button:hover,
+.form-action button:active {
+  background-color: hsla(250, 49%, 50%, 0.9);
+}
+
+.form-action button[type='button'] {
+  text-decoration: underline;
+  background: transparent;
+  border: none;
+  color: #5843be;
+  box-shadow: none;
 }
 
 @media screen and (max-width: 655px) {

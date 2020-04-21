@@ -2,6 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const graphqlHttp = require('express-graphql')
 const mongoose = require('mongoose')
+const cors = require('cors')
 
 // import graphQl schema and resolvers
 const graphQlSchema = require('./graphql/schema')
@@ -13,6 +14,8 @@ const isAuth = require('./middleware/checkAuth')
 const app = express()
 
 app.use(bodyParser.json())
+
+app.use(cors())
 
 app.use(isAuth)
 
