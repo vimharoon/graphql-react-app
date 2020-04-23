@@ -137,6 +137,14 @@ body {
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.26);
 }
 
+.form-action button svg {
+  position: relative;
+  top: 50%;
+  left: 3%;
+  vertical-align: middle;
+  transform: translate(-50%, -3%);
+}
+
 .form-action button:hover,
 .form-action button:active {
   background-color: hsla(250, 49%, 50%, 0.9);
@@ -183,6 +191,103 @@ body {
 .not-found-page a:active {
   background-color: #5743be;
   color: #fafafa;
+}
+
+.events-page .events-actions {
+  display: flex;
+  justify-content: space-evenly;
+  background-color: #ffffff;
+  border-radius: 7px;
+  align-items: center;
+  padding: 1rem;
+}
+
+.events-actions button {
+  margin-bottom: 0;
+}
+
+.events-page .event-content {
+  display: flex;
+  justify-content: space-evenly;
+  background-color: #ffffff;
+  border-radius: 7px;
+  margin: 2rem auto;
+}
+
+/*#pointer {
+  width: 200px;
+  height: 40px;
+  position: relative;
+  background: red;
+}
+#pointer:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  border-left: 20px solid white;
+  border-top: 20px solid transparent;
+  border-bottom: 20px solid transparent;
+}
+#pointer:before {
+  content: "";
+  position: absolute;
+  right: -20px;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  border-left: 20px solid red;
+  border-top: 20px solid transparent;
+  border-bottom: 20px solid transparent;
+}*/
+
+.modal {
+  width: 50rem;
+  max-width: 80%;
+  background: #ffffff;
+  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.26);
+  position: fixed;
+  top: 20vh;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 7px;
+}
+
+.modal__header {
+  padding: 1rem 3rem;
+  background-color: #ecf6ff;
+  border-radius: inherit;
+}
+
+.modal__header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.modal__content {
+  padding: 1rem 3rem;
+}
+
+.modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1rem 3rem;
+}
+.modal__actions button {
+  margin-bottom: 0;
+  margin-left: 1.5rem;
+}
+
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.75);
 }
 
 @media screen and (max-width: 655px) {

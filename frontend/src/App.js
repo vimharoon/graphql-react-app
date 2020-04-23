@@ -16,13 +16,24 @@ import BookingsPage from './pages/BookingsPage'
 import NotFoundPage from './pages/NotFoundPage'
 
 const App = () => {
-  const [auth, setAuth] = useState({ token: null, userId: null })
+  let authData
+  if (localStorage.getItem('auth')) {
+    authData = JSON.parse(localStorage.getItem('auth'))
+  } else {
+    authData = { token: null, userId: null }
+  }
+  const [auth, setAuth] = useState(authData)
 
   const hadleLogin = (token, userId) => {
+    localStorage.setItem(
+      'auth',
+      JSON.stringify({ token: token, userId: userId })
+    )
     setAuth({ token: token, userId: userId })
   }
 
   const handeLogout = () => {
+    localStorage.removeItem('auth')
     setAuth({ token: null, userId: null })
   }
 
