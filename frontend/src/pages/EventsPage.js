@@ -1,9 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 
-import AddEventFrom from './../components/eventForms/AddEventFrom'
+import { AuthContext } from './../contexts'
+import AddEventFrom from './../components/events/AddEventFrom'
+import EventsList from './../components/events/EventsList'
 
 const EventsPage = () => {
   const [isOpen, setIsOpen] = useState({ addEvent: false })
+  const authContext = useContext(AuthContext)
 
   const addNewEvent = () => {
     setIsOpen({ addEvent: true })
@@ -16,7 +19,6 @@ const EventsPage = () => {
   const confirmEventCreation = () => {
     setIsOpen({ addEvent: false })
   }
-  //onSubmit={handleSubmit}
 
   return (
     <>
@@ -26,32 +28,30 @@ const EventsPage = () => {
           confirmEventCreation={confirmEventCreation}
         />
       )}
+
       <div className="events-page">
-        <div className="events-actions">
-          <div className="form-action">
-            <button type="submit">
-              <i data-eva="funnel" data-eva-fill="#f6f7f8"></i>
-              Filter
-            </button>
+        {!!authContext.token && (
+          <div className="events-actions">
+            <div className="form-action">
+              <button>Filter</button>
+            </div>
+            <h2>Events</h2>
+            <div className="form-action" onClick={addNewEvent}>
+              <button>Add Event</button>
+            </div>
           </div>
-          <h2>Events</h2>
-          <div className="form-action" onClick={addNewEvent}>
-            <button type="submit">
-              <i data-eva="plus" data-eva-fill="#f6f7f8"></i> Add Event
-            </button>
-          </div>
-        </div>
-        <div className="event-content">
-          <div className="event-list">
+        )}
+        <section className="event-content">
+          <div className="events-list">
             <ul>
-              <li>zeaze</li>
-              <li>eaze</li>
-              <li>eaze</li>
+              <EventsList />
             </ul>
           </div>
 
-          <div className="event-description">toto have description</div>
-        </div>
+          <div className="event-description">
+            <img src="/images/event-pic.jpg" alt="event with people" />
+          </div>
+        </section>
       </div>
     </>
   )

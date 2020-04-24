@@ -11,7 +11,7 @@ const LoginFrom = (props) => {
   function login() {
     loginRequest(values).then((userData) => {
       if (!userData.errors) {
-        authContext.login({ ...userData.data.login.token })
+        authContext.login({ ...userData.data.login })
       }
     })
   }

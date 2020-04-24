@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import AddBookingFrom from './../components/bookingForms/AddBookingFrom'
+import AddBookingFrom from './../components/bookings/AddBookingFrom'
 
 const BookingsPage = () => {
   const [isOpen, setIsOpen] = useState({ addBooking: false })
@@ -28,16 +28,11 @@ const BookingsPage = () => {
       <div className="events-page">
         <div className="events-actions">
           <div className="form-action">
-            <button type="submit">
-              <i data-eva="funnel" data-eva-fill="#f6f7f8"></i>
-              Filter
-            </button>
+            <button>Filter</button>
           </div>
           <h2>Bookings</h2>
           <div className="form-action" onClick={addNewBooking}>
-            <button type="submit">
-              <i data-eva="plus" data-eva-fill="#f6f7f8"></i> Add Booking
-            </button>
+            <button>Add Booking</button>
           </div>
         </div>
         <div className="event-content">

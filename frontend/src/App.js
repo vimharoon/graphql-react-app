@@ -24,7 +24,7 @@ const App = () => {
   }
   const [auth, setAuth] = useState(authData)
 
-  const hadleLogin = (token, userId) => {
+  const hadleLogin = ({ token, userId }) => {
     localStorage.setItem(
       'auth',
       JSON.stringify({ token: token, userId: userId })

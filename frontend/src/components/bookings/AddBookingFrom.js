@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Modal from './../popups/Modal'
+import Modal from '../popups/Modal'
 
 const AddEventForm = (props) => {
   return (

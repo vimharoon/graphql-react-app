@@ -13,13 +13,15 @@ const Modal = (props) => {
         <section className="modal__content">{props.children}</section>
         <section className="modal__actions">
           {props.onCancel && (
-            <div className="form-action" onClick={props.onCancel}>
-              <button type="submit">Cancel</button>
+            <div className="form-action">
+              <button onClick={props.onCancel}>Cancel</button>
             </div>
           )}
           {props.onConfirm && (
-            <div className="form-action" onClick={props.onCancel}>
-              <button type="submit">Confirm</button>
+            <div className="form-action">
+              <button type="submit" onClick={props.onConfirm}>
+                Confirm
+              </button>
             </div>
           )}
         </section>
