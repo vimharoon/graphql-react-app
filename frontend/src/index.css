@@ -31,6 +31,7 @@ body {
   background: #fdfdfd;
   padding: 0 1rem;
   display: flex;
+  z-index: 2;
 }
 
 .navigation__logo {
@@ -217,21 +218,15 @@ body {
 
 .events-list,
 .event-description {
-  max-width: 50%;
-  margin: 2rem auto;
-}
-
-.event-description img {
   height: 100%;
-  width: 100%;
-  max-width: 600px;
+  width: 400px;
+  margin: 0 auto;
 }
 
 .events-list ul {
   list-style: none;
-  margin: 0;
+  margin: 0 auto;
   padding: 0;
-  max-width: 600px;
 }
 
 .event-list__items {
@@ -277,6 +272,10 @@ body {
 .event__item__title-price {
   display: flex;
   flex-direction: column;
+}
+
+.event__item__title-price {
+  width: 200px;
 }
 
 .event__item__date span:nth-child(1) {
@@ -358,13 +357,34 @@ body {
   z-index: 99;
 }
 
+@media screen and (max-width: 880px) {
+  .main-content {
+    margin: 4rem 0;
+  }
+  .event-description {
+    display: none;
+  }
+  .event-list__items hr {
+    margin: 0 2rem;
+  }
+  .event-list__items:before {
+    display: none;
+  }
+}
+
 @media screen and (max-width: 655px) {
   .navigation__logo {
     line-height: 3.5rem;
   }
-
+  .navigation__items ul {
+    justify-content: center;
+    padding-left: 0;
+  }
   .navigation__logo h1 {
     margin: 0;
-    font-size: 1rem;
+    font-size: 0.5rem;
+  }
+  .event__item__date span {
+    padding: 4px 2px !important;
   }
 }

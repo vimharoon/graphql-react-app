@@ -1,11 +1,14 @@
 import React, { useState, useContext } from 'react'
 
 import { AuthContext } from './../contexts'
+// import { useWindowDimensions } from './../hooks'
 import AddEventFrom from './../components/events/AddEventFrom'
 import EventsList from './../components/events/EventsList'
+import EventDetails from './../components/events/EventDetails'
 
 const EventsPage = () => {
   const [isOpen, setIsOpen] = useState({ addEvent: false })
+  //  const { height, width } = useWindowDimensions()
   const authContext = useContext(AuthContext)
 
   const addNewEvent = () => {
@@ -19,6 +22,10 @@ const EventsPage = () => {
   const confirmEventCreation = () => {
     setIsOpen({ addEvent: false })
   }
+
+  // if (width <= 880) {
+  //   console.log(`height: ${height}; width:${width}`)
+  // }
 
   return (
     <>
@@ -47,10 +54,7 @@ const EventsPage = () => {
               <EventsList />
             </ul>
           </div>
-
-          <div className="event-description">
-            <img src="/images/event-pic.jpg" alt="event with people" />
-          </div>
+          <EventDetails />
         </section>
       </div>
     </>

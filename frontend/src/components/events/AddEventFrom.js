@@ -11,7 +11,6 @@ const AddEventForm = (props) => {
       return
     }
     eventCreationRequest(values).then((eventDate) => {
-      console.log(eventDate)
       if (!eventDate.errors) {
         props.confirmEventCreation()
       }
