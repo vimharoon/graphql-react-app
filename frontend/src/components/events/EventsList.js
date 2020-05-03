@@ -11,8 +11,14 @@ const EventsList = (props) => {
                 events{
                   _id
                   title
+                  description
                   price
                   date
+                  creator {
+                    _id
+                    firstname
+                    lastname
+                  }
                 }
               }`,
     }),
@@ -27,8 +33,12 @@ const EventsList = (props) => {
         eventsData.apiRes.respData.map((event) => (
           <li
             key={event._id}
-            className="event-list__items"
-            onClick={props.onEventSelection}
+            className={
+              props.currentUserId === event.creator._id
+                ? 'event-list__items not-clickable'
+                : 'event-list__items'
+            }
+            onClick={props.onEventSelection.bind(null, event)}
           >
             <div className="event__item__date">
               <span>{moment(event.date).format('ddd')}</span>

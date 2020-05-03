@@ -8,36 +8,33 @@ import EventDetails from './../components/events/EventDetails'
 import EventDetailsModal from './../components/events/EventDetailsModal'
 
 const EventsPage = () => {
-  const [isOpen, setIsOpen] = useState({
-    addEvent: false,
-    showEventDetail: false,
-  })
+  const [state, setState] = useState({ addEvent: false, event: {} })
   const { width } = useWindowDimensions()
   const authContext = useContext(AuthContext)
 
   const addNewEvent = () => {
-    setIsOpen({ addEvent: true, showEventDetail: false })
+    setState({ addEvent: true, event: {} })
   }
 
-  const openEventDetail = () => {
-    setIsOpen({ addEvent: false, showEventDetail: true })
+  const openEventDetail = (event) => {
+    setState({ addEvent: false, event: event })
   }
 
   const cancelEventCreation = () => {
-    setIsOpen({ addEvent: false, showEventDetail: false })
+    setState({ addEvent: false, event: {} })
   }
 
   const closeEventDetails = () => {
-    setIsOpen({ addEvent: false, showEventDetail: false })
+    setState({ addEvent: false, event: {} })
   }
 
   const confirmEventCreation = () => {
-    setIsOpen({ addEvent: false, showEventDetail: false })
+    setState({ addEvent: false, event: {} })
   }
 
   return (
     <>
-      {isOpen.addEvent && (
+      {state.addEvent && (
         <AddEventFrom
           cancelEventCreation={cancelEventCreation}
           confirmEventCreation={confirmEventCreation}
@@ -59,15 +56,19 @@ const EventsPage = () => {
         <section className="event-content">
           <div className="events-list">
             <ul>
-              <EventsList onEventSelection={openEventDetail} />
+              <EventsList
+                currentUserId={authContext.userId}
+                onEventSelection={openEventDetail}
+              />
             </ul>
           </div>
           {width >= 880 ? (
-            <EventDetails isAuth={!!authContext.token} />
+            <EventDetails selectedEvent={state.event} isAuth={authContext} />
           ) : (
             <EventDetailsModal
-              isOpen={isOpen}
-              isAuth={!!authContext.token}
+              isOpen={state}
+              isAuth={authContext}
+              selectedEvent={state.event}
               closeEventDetails={closeEventDetails}
             />
           )}

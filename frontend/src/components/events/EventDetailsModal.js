@@ -1,35 +1,50 @@
 import React from 'react'
+import moment from 'moment'
 
 import Modal from './../popups/Modal'
 
 const EventDetailsModal = (props) => {
   return (
     <>
-      {props.isOpen.showEventDetail && (
+      {!!Object.keys(props.selectedEvent).length && (
         <Modal title="Event Details" onCancel={props.closeEventDetails}>
-          <div className="event-description-modal">
+          <div className="event-description">
             <div className="description__header">
-              <h2>Title</h2>
-              <p>description for the event</p>
+              <h2>{props.selectedEvent.title}</h2>
+              <p>{props.selectedEvent.description}</p>
             </div>
             <div className="creator__description">
-              <img src="/images/placeholder-img150x150.png" alt="profile" />
-              <p>Creator: toto@test.com</p>
+              <img
+                height="50px"
+                width="50px"
+                src="/images/placeholder-img150x150.png"
+                alt="profile"
+              />
+              <p>
+                {props.selectedEvent.creator.firstname +
+                  ' ' +
+                  props.selectedEvent.creator.lastname}
+              </p>
             </div>
 
             <div className="event__infos">
               <ul>
-                <li>date</li>
-                <li>time</li>
-                <li>duration</li>
-                <li>cost</li>
+                <li>{moment(props.selectedEvent.date).format('DD/MM/YYYY')}</li>
+                <li>{moment(props.selectedEvent.date).format('h:mm')} h</li>
+                <li>$ {props.selectedEvent.price}</li>
               </ul>
             </div>
 
-            {props.isAuth && (
+            {!!props.isAuth.token && (
               <div className="description__footer">
                 <div className="form-action">
-                  <button>Book Event</button>
+                  {props.isAuth.userId === props.selectedEvent.creator._id ? (
+                    <p className="creator-message">
+                      You are the creator of this event.
+                    </p>
+                  ) : (
+                    <button>Book Event</button>
+                  )}
                 </div>
               </div>
             )}
