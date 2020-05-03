@@ -1,6 +1,6 @@
 import React from 'react'
 
-const EventDetails = () => {
+const EventDetails = (props) => {
   return (
     <div className="event-description">
       <div className="description__header">
@@ -8,7 +8,7 @@ const EventDetails = () => {
         <p>description for the event</p>
       </div>
       <div className="creator__description">
-        <img src="https://via.placeholder.com/150" alt="profile" />
+        <img src="/images/placeholder-img150x150.png" alt="profile" />
         <p>Creator: toto@test.com</p>
       </div>
 
@@ -21,11 +21,13 @@ const EventDetails = () => {
         </ul>
       </div>
 
-      <div className="description__footer">
-        <div className="form-action">
-          <button>Book Event</button>
+      {props.isAuth && (
+        <div className="description__footer">
+          <div className="form-action">
+            <button>Book Event</button>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }

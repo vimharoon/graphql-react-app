@@ -9,6 +9,7 @@ import {
 import { AuthContext } from './contexts'
 
 import Navbar from './components/navigation/Navbar'
+import Footer from './components/footer/Footer'
 
 import AuthPage from './pages/AuthPage'
 import EventsPage from './pages/EventsPage'
@@ -60,6 +61,7 @@ const App = () => {
             <Route path="*" component={NotFoundPage} />
           </Switch>
         </main>
+        <Footer />
       </AuthContext.Provider>
     </Router>
   )

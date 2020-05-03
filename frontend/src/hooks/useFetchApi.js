@@ -18,6 +18,7 @@ const useFetchApi = (url, options) => {
       .catch((error) => {
         setError(error)
       })
+    // eslint-disable-next-line
   }, [])
   return { apiRes, error }
 }

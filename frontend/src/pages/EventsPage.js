@@ -1,31 +1,39 @@
 import React, { useState, useContext } from 'react'
 
 import { AuthContext } from './../contexts'
-// import { useWindowDimensions } from './../hooks'
+import { useWindowDimensions } from './../hooks'
 import AddEventFrom from './../components/events/AddEventFrom'
 import EventsList from './../components/events/EventsList'
 import EventDetails from './../components/events/EventDetails'
+import EventDetailsModal from './../components/events/EventDetailsModal'
 
 const EventsPage = () => {
-  const [isOpen, setIsOpen] = useState({ addEvent: false })
-  //  const { height, width } = useWindowDimensions()
+  const [isOpen, setIsOpen] = useState({
+    addEvent: false,
+    showEventDetail: false,
+  })
+  const { width } = useWindowDimensions()
   const authContext = useContext(AuthContext)
 
   const addNewEvent = () => {
-    setIsOpen({ addEvent: true })
+    setIsOpen({ addEvent: true, showEventDetail: false })
+  }
+
+  const openEventDetail = () => {
+    setIsOpen({ addEvent: false, showEventDetail: true })
   }
 
   const cancelEventCreation = () => {
-    setIsOpen({ addEvent: false })
+    setIsOpen({ addEvent: false, showEventDetail: false })
+  }
+
+  const closeEventDetails = () => {
+    setIsOpen({ addEvent: false, showEventDetail: false })
   }
 
   const confirmEventCreation = () => {
-    setIsOpen({ addEvent: false })
+    setIsOpen({ addEvent: false, showEventDetail: false })
   }
-
-  // if (width <= 880) {
-  //   console.log(`height: ${height}; width:${width}`)
-  // }
 
   return (
     <>
@@ -51,10 +59,18 @@ const EventsPage = () => {
         <section className="event-content">
           <div className="events-list">
             <ul>
-              <EventsList />
+              <EventsList onEventSelection={openEventDetail} />
             </ul>
           </div>
-          <EventDetails />
+          {width >= 880 ? (
+            <EventDetails isAuth={!!authContext.token} />
+          ) : (
+            <EventDetailsModal
+              isOpen={isOpen}
+              isAuth={!!authContext.token}
+              closeEventDetails={closeEventDetails}
+            />
+          )}
         </section>
       </div>
     </>

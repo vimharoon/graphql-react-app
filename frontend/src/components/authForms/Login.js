@@ -3,6 +3,8 @@ import React, { useContext } from 'react'
 import { useForm } from './../../hooks'
 import { AuthContext } from './../../contexts'
 
+import MessageToast from './../popups/MessageToast'
+
 const LoginFrom = (props) => {
   const { values, handleChange, handleSubmit } = useForm(login)
 
@@ -39,6 +41,41 @@ const LoginFrom = (props) => {
   return (
     <div className="auth-page-login">
       <h2 className="page-title">Login</h2>
+      <MessageToast
+        toastList={[
+          {
+            id: new Date(),
+            title: 'Success',
+            description: 'This is a success toast component',
+            backgroundColor: '#5cb85c',
+            icon: '/images/check.svg',
+          },
+          {
+            id: new Date(),
+            title: 'Danger',
+            description: 'This is a error toast component',
+            backgroundColor: '#d9534f',
+            icon: '/images/error.svg',
+          },
+          {
+            id: new Date(),
+            title: 'Info',
+            description: 'This is an info toast component',
+            backgroundColor: '#5bc0de',
+            icon: '/images/info.svg',
+          },
+          {
+            id: new Date(),
+            title: 'Warning',
+            description: 'This is a warning toast component',
+            backgroundColor: '#f0ad4e',
+            icon: '/images/warning.svg',
+          },
+        ]}
+        position="top-right"
+        autoDelete={true}
+        autoDeleteTime={5000}
+      />
       <form onSubmit={handleSubmit}>
         <div className="form-control">
           <label htmlFor="email">E-mail: </label>

@@ -1,8 +1,9 @@
 import React from 'react'
+import moment from 'moment'
 
 import { useFetchApi } from './../../hooks'
 
-const EventsList = () => {
+const EventsList = (props) => {
   const eventsData = useFetchApi('http://localhost:8080/graphql', {
     method: 'POST',
     body: JSON.stringify({
@@ -10,13 +11,8 @@ const EventsList = () => {
                 events{
                   _id
                   title
-                  description
                   price
                   date
-                  creator {
-                    _id
-                    email
-                  }
                 }
               }`,
     }),
@@ -29,10 +25,14 @@ const EventsList = () => {
     <>
       {eventsData.apiRes.respData &&
         eventsData.apiRes.respData.map((event) => (
-          <li key={event._id} className="event-list__items">
+          <li
+            key={event._id}
+            className="event-list__items"
+            onClick={props.onEventSelection}
+          >
             <div className="event__item__date">
-              <span>Mon</span>
-              <span>11</span>
+              <span>{moment(event.date).format('ddd')}</span>
+              <span>{moment(event.date).format('DD')}</span>
             </div>
             <hr />
             <div className="event__item__title-price">
